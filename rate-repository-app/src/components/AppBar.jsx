@@ -1,7 +1,49 @@
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, Pressable } from 'react-native';
 import Constants from 'expo-constants';
 import Text from './Text';
 import { Link } from 'react-router-native';
+import { useQuery } from '@apollo/client';
+import { ME } from '../graphql/queries';
+import { useApolloClient } from '@apollo/client';
+import useAuthStorage from '../hooks/useAuthStorage';
+
+const AppBar = () => {
+  const { data, loading, refetch } = useQuery(ME);
+  const user = data?.me;
+
+  const authStorage = useAuthStorage();
+  const apolloClient = useApolloClient();
+
+  const handleSignOut = async () => {
+    await authStorage.removeAccessToken();
+    await apolloClient.resetStore();
+  };
+
+  return (
+    <View style={styles.container}>
+      <ScrollView horizontal>
+        {user ? (
+          <Pressable onPress={handleSignOut} style={styles.link}>
+            <Text fontWeight='bold' color='textSecondary' fontSize='subheading'>
+              Sign out
+            </Text>
+          </Pressable>
+        ) : (
+          <Link to='/signin' style={styles.link}>
+            <Text fontWeight='bold' color='textSecondary' fontSize='subheading'>
+              Sign In
+            </Text>
+          </Link>
+        )}
+        <Link to='/' style={styles.link}>
+          <Text fontWeight='bold' color='textSecondary' fontSize='subheading'>
+            Repositories
+          </Text>
+        </Link>
+      </ScrollView>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -23,25 +65,5 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 });
-
-const AppBar = () => {
-  return (
-    <View style={styles.container}>
-      <ScrollView horizontal>
-        <Link to='/signin' style={styles.link}>
-          <Text fontWeight='bold' color='textSecondary' fontSize='subheading'>
-            Sign In
-          </Text>
-        </Link>
-
-        <Link to='/' style={styles.link}>
-          <Text fontWeight='bold' color='textSecondary' fontSize='subheading'>
-            Repositories
-          </Text>
-        </Link>
-      </ScrollView>
-    </View>
-  );
-};
 
 export default AppBar;
