@@ -27,6 +27,7 @@ export default defineConfig([
     languageOptions: {
       globals: {
         ...reactNative.environments['react-native']['react-native'],
+        console: 'readonly',
       },
 
       parser: babelParser,
