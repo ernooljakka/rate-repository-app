@@ -1,15 +1,15 @@
 import { useQuery } from '@apollo/client';
 import { GET_REPOSITORIES } from '../graphql/queries';
 
-const useRepositories = () => {
-  const { data, loading, refetch } = useQuery(GET_REPOSITORIES, {
+const useRepositories = (orderBy = 'CREATED_AT', orderDirection = 'DESC') => {
+  const { data, loading, error } = useQuery(GET_REPOSITORIES, {
     fetchPolicy: 'cache-and-network',
+    variables: { orderBy, orderDirection },
   });
 
-  // Transform data to match your old structure if needed
-  const repositories = data?.repositories?.edges.map((edge) => edge.node);
+  const repositories = data?.repositories?.edges?.map((edge) => edge.node) || [];
 
-  return { repositories, loading, refetch };
+  return { repositories, loading, error };
 };
 
 export default useRepositories;

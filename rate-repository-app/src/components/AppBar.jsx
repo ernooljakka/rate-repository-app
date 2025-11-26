@@ -29,15 +29,27 @@ const AppBar = () => {
             </Text>
           </Pressable>
         ) : (
-          <Link to='/signin' style={styles.link}>
-            <Text fontWeight='bold' color='textSecondary' fontSize='subheading'>
-              Sign In
-            </Text>
-          </Link>
+          <>
+            <Link to='/signin' style={styles.link}>
+              <Text fontWeight='bold' color='textSecondary' fontSize='subheading'>
+                Sign In
+              </Text>
+            </Link>
+            <Link to='/signup' style={styles.link}>
+              <Text fontWeight='bold' color='textSecondary' fontSize='subheading'>
+                Sign Up
+              </Text>
+            </Link>
+          </>
         )}
         <Link to='/' style={styles.link}>
           <Text fontWeight='bold' color='textSecondary' fontSize='subheading'>
             Repositories
+          </Text>
+        </Link>
+        <Link to='/createReview' style={styles.link}>
+          <Text fontWeight='bold' color='textSecondary' fontSize='subheading'>
+            Create a Review
           </Text>
         </Link>
       </ScrollView>
