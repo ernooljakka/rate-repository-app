@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
     marginTop: 3,
     marginLeft: 3,
     marginRight: 3,
+    borderRadius: 5,
   },
   avatarImg: {
     width: 75,

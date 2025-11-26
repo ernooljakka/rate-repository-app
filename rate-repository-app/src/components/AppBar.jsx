@@ -3,12 +3,12 @@ import Constants from 'expo-constants';
 import Text from './Text';
 import { Link } from 'react-router-native';
 import { useQuery } from '@apollo/client';
-import { ME } from '../graphql/queries';
+import { GET_CURRENT_USER } from '../graphql/queries';
 import { useApolloClient } from '@apollo/client';
 import useAuthStorage from '../hooks/useAuthStorage';
 
 const AppBar = () => {
-  const { data, loading, refetch } = useQuery(ME);
+  const { data, loading, refetch } = useQuery(GET_CURRENT_USER);
   const user = data?.me;
 
   const authStorage = useAuthStorage();
@@ -23,11 +23,18 @@ const AppBar = () => {
     <View style={styles.container}>
       <ScrollView horizontal>
         {user ? (
-          <Pressable onPress={handleSignOut} style={styles.link}>
-            <Text fontWeight='bold' color='textSecondary' fontSize='subheading'>
-              Sign out
-            </Text>
-          </Pressable>
+          <>
+            <Pressable onPress={handleSignOut} style={styles.link}>
+              <Text fontWeight='bold' color='textSecondary' fontSize='subheading'>
+                Sign out
+              </Text>
+            </Pressable>
+            <Link to='/userReview' style={styles.link}>
+              <Text fontWeight='bold' color='textSecondary' fontSize='subheading'>
+                My Reviews
+              </Text>
+            </Link>
+          </>
         ) : (
           <>
             <Link to='/signin' style={styles.link}>
